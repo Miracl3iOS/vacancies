@@ -1352,8 +1352,8 @@ function admChats(body){
 
 // ── TELEGRAM ─────────────────────────────────────
 function admTg(body){
-  const token=localStorage.getItem('8266254572:AAG8hFqiuCaQLY1VttbghXNQ4NUIHqMEhB0')||'';
-  const chatId=localStorage.getItem('8097658728')||'';
+  const token=localStorage.getItem('gv_tg_token')||'';
+  const chatId=localStorage.getItem('gv_tg_chatid')||'';
   body.innerHTML=`
     <div class="adm-info-box">
       <strong>✈️ Настройка Telegram-бота</strong>
@@ -1390,7 +1390,7 @@ function admTg(body){
 function updateTgLink(){
   const t=document.getElementById('tg_tok').value;
   const box=document.getElementById('tgLinkBox');
-  if(box)box.textContent=t?`https://api.telegram.org/bot${t}/getUpdates`:'https://api.telegram.org/bot{ВАШ_ТОКЕН}/getUpdates';
+  if(box)box.textContent=t?`https://api.telegram.org/bot${t}/getUpdates`:'https://api.telegram.org/bot{8266254572:AAG8hFqiuCaQLY1VttbghXNQ4NUIHqMEhB0}/getUpdates';
 }
 function saveTg(){
   const t=document.getElementById('tg_tok').value.trim();

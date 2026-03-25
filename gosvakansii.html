@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ГосВакансии — Работа в государственных структурах</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #E8ECF1;
+  --neo-out:      8px 8px 18px rgba(163,177,198,.65), -8px -8px 18px rgba(255,255,255,.92);
+  --neo-sm:       4px 4px 10px rgba(163,177,198,.55), -4px -4px 10px rgba(255,255,255,.90);
+  --neo-xs:       2px 2px 6px  rgba(163,177,198,.45), -2px -2px 6px  rgba(255,255,255,.85);
+  --neo-in:       inset 4px 4px 8px rgba(163,177,198,.5), inset -4px -4px 8px rgba(255,255,255,.9);
+  --neo-press:    inset 6px 6px 12px rgba(163,177,198,.65), inset -6px -6px 12px rgba(255,255,255,.5);
+  --txt1:         #1A1A2E;
+  --txt2:         #636e80;
+  --txt3:         #9BA8B5;
+  --accent:       #007AFF;
+  --accent-l:     rgba(0,122,255,.10);
+  --accent-glow:  0 6px 20px rgba(0,122,255,.38);
+  --green:        #34C759;
+  --orange:       #FF9500;
+  --red:          #FF3B30;
+  --border:       rgba(0,0,0,.055);
+  --overlay:      rgba(20,20,40,.45);
+  --radius-card:  22px;
+  --radius-btn:   14px;
+  --font:         'Manrope', -apple-system, sans-serif;
+}
+[data-theme="dark"] {
+  --bg:           #141420;
+  --neo-out:      8px 8px 18px rgba(0,0,0,.55), -8px -8px 18px rgba(35,35,55,.75);
+  --neo-sm:       4px 4px 10px rgba(0,0,0,.45), -4px -4px 10px rgba(35,35,55,.65);
+  --neo-xs:       2px 2px 6px  rgba(0,0,0,.40), -2px -2px 6px  rgba(35,35,55,.55);
+  --neo-in:       inset 4px 4px 8px rgba(0,0,0,.45), inset -4px -4px 8px rgba(35,35,55,.55);
+  --neo-press:    inset 6px 6px 12px rgba(0,0,0,.55), inset -6px -6px 12px rgba(35,35,55,.40);
+  --txt1:         #F0F2F8;
+  --txt2:         #8E95A0;
+  --txt3:         #555e6b;
+  --accent:       #0A84FF;
+  --accent-l:     rgba(10,132,255,.12);
+  --green:        #30D158;
+  --orange:       #FF9F0A;
+  --red:          #FF453A;
+  --border:       rgba(255,255,255,.065);
+  --overlay:      rgba(0,0,0,.60);
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--txt1);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background .35s ease, color .25s ease;
+}
+
+/* ─── PRELOADER ──────────────────────────────────────────── */
+#preloader {
+  position:fixed; inset:0; background:var(--bg); z-index:9999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
+  transition: background .35s;
+}
+.pl-logo {
+  width:88px; height:88px; border-radius:26px;
+  background:var(--bg); box-shadow:var(--neo-out);
+  display:flex; align-items:center; justify-content:center;
+  animation: plLogo .75s cubic-bezier(.34,1.56,.64,1) both;
+}
+.pl-logo-inner { width:48px; height:48px; }
+.pl-words { opacity:0; animation: fadeUp .45s ease .38s both; text-align:center; }
+.pl-words h1 { font-size:22px; font-weight:900; letter-spacing:-.6px; color:var(--txt1); }
+.pl-words h1 span { color:var(--accent); }
+.pl-words p  { font-size:13px; color:var(--txt2); margin-top:3px; }
+.pl-track {
+  width:168px; height:5px; border-radius:100px;
+  box-shadow:var(--neo-in); overflow:hidden;
+  opacity:0; animation: fadeUp .4s ease .55s both;
+}
+.pl-fill {
+  height:100%; background:var(--accent); border-radius:100px;
+  animation: plFill 1.3s cubic-bezier(.4,0,.2,1) .55s both;
+  width:0;
+}
+@keyframes plLogo { from{opacity:0;transform:scale(.4) translateY(18px)} to{opacity:1;transform:none} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+@keyframes plFill  { to{width:100%} }
+#preloader.out { animation: plOut .45s ease forwards; pointer-events:none; }
+@keyframes plOut { to{opacity:0} }
+
+/* ─── APP ────────────────────────────────────────────────── */
+#app {
+  opacity:0; animation: fadeIn .45s ease 2.1s both;
+  max-width:480px; margin:0 auto; padding-bottom:96px;
+}
+@keyframes fadeIn { to{opacity:1} }
+
+/* ─── HEADER ─────────────────────────────────────────────── */
+.hdr {
+  position:sticky; top:0; z-index:80; background:var(--bg);
+  padding:18px 20px 12px;
+  transition: background .35s;
+}
+.hdr-row {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;
+}
+.logo { display:flex; align-items:center; gap:11px; }
+.logo-box {
+  width:40px; height:40px; border-radius:13px;
+  background:var(--bg); box-shadow:var(--neo-sm);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  transition: box-shadow .15s, transform .1s;
+  user-select: none;
+}
+.logo-box:active { box-shadow:var(--neo-in); transform:scale(.94); }
+.logo-box svg { width:22px; height:22px; }
+.logo-name { font-size:19px; font-weight:900; letter-spacing:-.6px; }
+.logo-name span { color:var(--accent); }
+.hdr-btns { display:flex; gap:9px; }
+.ico-btn {
+  width:40px; height:40px; border-radius:13px;
+  background:var(--bg); box-shadow:var(--neo-sm); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; color:var(--txt1);
+  transition: box-shadow .15s, transform .1s;
+}
+.ico-btn:active { box-shadow:var(--neo-in); transform:scale(.94); }
+.ico-btn svg { width:18px; height:18px; }
+.srch-wrap { position:relative; }
+.srch {
+  width:100%; height:48px; border-radius:15px; border:none;
+  background:var(--bg); box-shadow:var(--neo-in);
+  padding:0 16px 0 46px;
+  font-family:var(--font); font-size:15px; font-weight:500; color:var(--txt1);
+  outline:none; transition: background .35s;
+}
+.srch::placeholder { color:var(--txt3); font-weight:400; }
+.srch-ico { position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--txt3); pointer-events:none; }
+.srch-ico svg { width:17px; height:17px; }
+
+/* ─── CHIP BARS ──────────────────────────────────────────── */
+.chip-bar { display:flex; gap:8px; overflow-x:auto; padding:10px 20px 4px; scrollbar-width:none; }
+.chip-bar::-webkit-scrollbar { display:none; }
+.chip {
+  white-space:nowrap; flex-shrink:0; padding:8px 16px; border-radius:100px; border:none;
+  background:var(--bg); box-shadow:var(--neo-sm);
+  font-family:var(--font); font-size:13px; font-weight:700; color:var(--txt2); cursor:pointer;
+  transition: all .2s;
+}
+.chip.on { background:var(--accent); color:#fff; box-shadow:var(--accent-glow); }
+.chip.cat-on { background:var(--accent-l); color:var(--accent); box-shadow:none; }
+.chip:active:not(.on):not(.cat-on) { box-shadow:var(--neo-in); }
+
+/* ─── SECTION HDR ────────────────────────────────────────── */
+.sec-hdr { display:flex; align-items:center; justify-content:space-between; padding:12px 20px 4px; }
+.sec-title { font-size:21px; font-weight:900; letter-spacing:-.5px; }
+.sec-cnt { font-size:13px; color:var(--txt2); font-weight:600; }
+
+/* ─── JOB CARDS ──────────────────────────────────────────── */
+.jobs { display:flex; flex-direction:column; gap:14px; padding:8px 20px; }
+.jcard {
+  background:var(--bg); border-radius:var(--radius-card); box-shadow:var(--neo-out);
+  cursor:pointer; overflow:hidden;
+  transition: transform .18s, box-shadow .18s;
+  animation: cardIn .4s ease both;
+}
+.jcard:active { transform:scale(.975); box-shadow:var(--neo-in); }
+@keyframes cardIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+.jcard-img {
+  width:100%; height:158px; object-fit:cover;
+  display:flex; align-items:center; justify-content:center; font-size:52px;
+  background:linear-gradient(135deg,var(--accent-l),rgba(52,199,89,.08));
+  border-radius:var(--radius-card) var(--radius-card) 0 0;
+  overflow:hidden;
+}
+.jcard-img img { width:100%; height:100%; object-fit:cover; }
+.jcard-body { padding:16px 18px 18px; }
+.jcard-top { display:flex; gap:12px; align-items:flex-start; }
+.co-logo {
+  width:50px; height:50px; border-radius:14px; flex-shrink:0;
+  background:var(--bg); box-shadow:var(--neo-sm);
+  display:flex; align-items:center; justify-content:center; font-size:22px; overflow:hidden;
+}
+.co-logo img { width:100%; height:100%; object-fit:cover; border-radius:14px; }
+.jcard-meta { flex:1; min-width:0; }
+.co-row { display:flex; align-items:center; gap:4px; margin-bottom:2px; }
+.co-name { font-size:12px; font-weight:700; color:var(--txt2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.vbadge svg { width:14px; height:14px; fill:var(--accent); }
+.j-title { font-size:17px; font-weight:800; letter-spacing:-.3px; line-height:1.25; margin-bottom:5px; }
+.j-salary { font-size:16px; font-weight:900; color:var(--accent); letter-spacing:-.3px; }
+.j-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; }
+.tag {
+  padding:5px 10px; border-radius:8px; font-size:11px; font-weight:700;
+}
+.tag-city  { background:rgba(52,199,89,.12);  color:var(--green);  }
+.tag-type  { background:rgba(255,149,0,.12);   color:var(--orange); }
+.tag-cat   { background:var(--accent-l);       color:var(--accent); }
+
+/* ─── EMPTY STATE ────────────────────────────────────────── */
+.empty { text-align:center; padding:60px 32px; }
+.empty .em { font-size:52px; margin-bottom:14px; }
+.empty h3 { font-size:18px; font-weight:800; margin-bottom:6px; }
+.empty p  { font-size:14px; color:var(--txt2); }
+
+/* ─── JOB MODAL ──────────────────────────────────────────── */
+.overlay {
+  position:fixed; inset:0; background:var(--overlay);
+  z-index:400; display:flex; align-items:flex-end;
+  opacity:0; pointer-events:none; transition:opacity .3s;
+  backdrop-filter:blur(5px);
+}
+.overlay.on { opacity:1; pointer-events:all; }
+.sheet {
+  width:100%; max-width:480px; margin:0 auto;
+  background:var(--bg); border-radius:28px 28px 0 0;
+  max-height:92vh; overflow-y:auto; scrollbar-width:none;
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.34,1.1,.64,1), background .35s;
+}
+.sheet::-webkit-scrollbar { display:none; }
+.overlay.on .sheet { transform:none; }
+.sheet-handle {
+  width:36px; height:5px; background:var(--txt3); border-radius:100px;
+  margin:12px auto 0; opacity:.45;
+}
+.modal-img {
+  width:calc(100% - 40px); height:200px; border-radius:20px;
+  margin:16px 20px 0; overflow:hidden;
+  display:flex; align-items:center; justify-content:center; font-size:72px;
+  background:linear-gradient(135deg,var(--accent-l),rgba(52,199,89,.08));
+  flex-shrink:0;
+}
+.modal-img img { width:100%; height:100%; object-fit:cover; }
+.modal-body { padding:18px 20px 0; }
+.modal-co-row { display:flex; align-items:center; gap:11px; margin-bottom:12px; }
+.modal-co-logo {
+  width:42px; height:42px; border-radius:13px; flex-shrink:0;
+  background:var(--bg); box-shadow:var(--neo-sm);
+  display:flex; align-items:center; justify-content:center; font-size:20px; overflow:hidden;
+}
+.modal-co-logo img { width:100%; height:100%; object-fit:cover; border-radius:13px; }
+.modal-co-info strong { font-size:14px; font-weight:800; display:flex; align-items:center; gap:4px; }
+.modal-co-info span  { font-size:11px; color:var(--txt2); }
+.modal-title  { font-size:24px; font-weight:900; letter-spacing:-.6px; line-height:1.2; margin-bottom:6px; }
+.modal-salary { font-size:21px; font-weight:900; color:var(--accent); margin-bottom:14px; }
+.modal-tags   { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
+.divider { height:1px; background:var(--border); margin:16px 0; }
+.sec-lbl { font-size:12px; font-weight:800; color:var(--txt3); text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+.modal-desc { font-size:15px; line-height:1.68; color:var(--txt1); white-space:pre-line; padding-bottom:20px; }
+.apply-bar {
+  padding:16px 20px 24px; position:sticky; bottom:0; background:var(--bg);
+  transition: background .35s;
+}
+.apply-btn {
+  width:100%; height:58px; border-radius:var(--radius-btn); border:none;
+  background:var(--accent); color:#fff;
+  font-family:var(--font); font-size:17px; font-weight:800; cursor:pointer;
+  box-shadow:var(--accent-glow); transition:transform .15s, box-shadow .15s;
+}
+.apply-btn:active { transform:scale(.97); box-shadow:0 3px 10px rgba(0,122,255,.25); }
+
+/* ─── MESSENGER SHEET ────────────────────────────────────── */
+.msg-sheet { padding:20px 20px 50px; }
+.msg-title { font-size:20px; font-weight:900; text-align:center; margin-top:8px; }
+.msg-sub   { font-size:13px; color:var(--txt2); text-align:center; margin:4px 0 22px; }
+.msg-list  { display:flex; flex-direction:column; gap:10px; }
+.msg-btn {
+  display:flex; align-items:center; gap:14px; padding:15px 16px;
+  border-radius:16px; border:none; background:var(--bg); box-shadow:var(--neo-sm);
+  cursor:pointer; text-decoration:none; color:var(--txt1); font-family:var(--font);
+  transition:transform .15s, box-shadow .15s;
+}
+.msg-btn:active { transform:scale(.97); box-shadow:var(--neo-press); }
+.msg-ico {
+  width:46px; height:46px; border-radius:13px;
+  display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0;
+}
+.msg-info strong { display:block; font-size:15px; font-weight:800; }
+.msg-info span   { font-size:12px; color:var(--txt2); }
+.msg-arrow { margin-left:auto; color:var(--txt3); }
+.msg-arrow svg { width:16px; height:16px; }
+.msg-cancel {
+  width:100%; margin-top:12px; padding:16px; border-radius:16px; border:none;
+  background:var(--bg); box-shadow:var(--neo-sm);
+  font-family:var(--font); font-size:15px; font-weight:700; color:var(--red); cursor:pointer;
+}
+
+/* ─── CHAT FAB ───────────────────────────────────────────── */
+.chat-fab {
+  position:fixed; bottom:92px; right:20px; width:58px; height:58px;
+  border-radius:19px; background:var(--accent); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--accent-glow); z-index:200;
+  transition:transform .18s;
+}
+.chat-fab:active { transform:scale(.9); }
+.chat-fab svg { width:26px; height:26px; fill:#fff; }
+.chat-dot {
+  position:absolute; top:-5px; right:-5px; width:20px; height:20px;
+  border-radius:50%; background:var(--red); border:2.5px solid var(--bg);
+  font-size:10px; font-weight:800; color:#fff;
+  display:none; align-items:center; justify-content:center;
+  animation: dotPop .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes dotPop { from{transform:scale(0)} to{transform:scale(1)} }
+
+/* ─── CHAT WINDOW ────────────────────────────────────────── */
+.chat-win {
+  position:fixed; bottom:164px; right:16px;
+  width:min(360px,calc(100vw - 32px)); height:470px;
+  background:var(--bg); border-radius:24px;
+  box-shadow:var(--neo-out), 0 24px 60px rgba(0,0,0,.18);
+  z-index:300; display:flex; flex-direction:column; overflow:hidden;
+  transform:scale(.82) translateY(18px); transform-origin:bottom right;
+  opacity:0; pointer-events:none;
+  transition:all .3s cubic-bezier(.34,1.2,.64,1), background .35s;
+}
+.chat-win.on { transform:none; opacity:1; pointer-events:all; }
+.chat-hdr {
+  padding:13px 14px; display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid var(--border); flex-shrink:0;
+}
+.chat-av {
+  width:38px; height:38px; border-radius:50%; background:var(--accent);
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+  font-weight:900; color:#fff; flex-shrink:0;
+}
+.chat-hdr-info { flex:1; }
+.chat-hdr-info strong { font-size:14px; font-weight:800; display:block; }
+.chat-hdr-info span  { font-size:11px; color:var(--green); font-weight:700; }
+.chat-x {
+  width:28px; height:28px; border-radius:8px; border:none;
+  background:var(--bg); box-shadow:var(--neo-xs); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; color:var(--txt2);
+}
+.chat-msgs {
+  flex:1; overflow-y:auto; padding:13px 12px; display:flex; flex-direction:column;
+  gap:9px; scrollbar-width:none;
+}
+.chat-msgs::-webkit-scrollbar { display:none; }
+.cmsg { max-width:82%; animation: msgIn .28s ease; }
+@keyframes msgIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+.cmsg.adm { align-self:flex-start; }
+.cmsg.usr { align-self:flex-end; }
+.cbubble {
+  padding:10px 14px; border-radius:16px;
+  font-size:13px; line-height:1.5; font-weight:500;
+}
+.cmsg.adm .cbubble {
+  background:var(--bg); box-shadow:var(--neo-xs);
+  border-radius:4px 16px 16px 16px;
+}
+.cmsg.usr .cbubble {
+  background:var(--accent); color:#fff;
+  border-radius:16px 4px 16px 16px;
+}
+.ctime { font-size:10px; color:var(--txt3); margin-top:3px; padding:0 4px; }
+.cmsg.usr .ctime { text-align:right; }
+.chat-inp-row {
+  padding:10px 12px; display:flex; gap:8px;
+  border-top:1px solid var(--border); flex-shrink:0;
+}
+.chat-inp {
+  flex:1; height:42px; border-radius:13px; border:none;
+  background:var(--bg); box-shadow:var(--neo-in);
+  padding:0 12px; font-family:var(--font); font-size:13px;
+  font-weight:500; color:var(--txt1); outline:none; transition:background .35s;
+}
+.chat-inp::placeholder { color:var(--txt3); font-weight:400; }
+.chat-send {
+  width:42px; height:42px; border-radius:13px; border:none; background:var(--accent);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 12px rgba(0,122,255,.28); flex-shrink:0;
+  transition:transform .13s;
+}
+.chat-send:active { transform:scale(.9); }
+.chat-send svg { width:18px; height:18px; fill:#fff; }
+
+/* ─── BOTTOM NAV ─────────────────────────────────────────── */
+.bnav {
+  position:fixed; bottom:0; left:0; right:0; z-index:100;
+  display:flex; justify-content:space-around;
+  padding:10px 20px 28px; background:var(--bg);
+  border-top:1px solid var(--border);
+  transition: background .35s;
+}
+.bnav-i {
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  cursor:pointer; color:var(--txt3); font-size:10px; font-weight:700;
+  transition:color .2s;
+}
+.bnav-i.on { color:var(--accent); }
+.bnav-i svg { width:24px; height:24px; }
+
+/* ─── ADMIN PANEL ────────────────────────────────────────── */
+.admin-ovl {
+  position:fixed; inset:0; background:var(--bg); z-index:900; overflow-y:auto;
+  transform:translateX(100%);
+  transition:transform .4s cubic-bezier(.34,1.1,.64,1), background .35s;
+}
+.admin-ovl.on { transform:none; }
+.adm-hdr {
+  display:flex; align-items:center; gap:13px;
+  padding:52px 20px 18px; border-bottom:1px solid var(--border);
+}
+.adm-hdr h2 { font-size:24px; font-weight:900; flex:1; letter-spacing:-.5px; }
+.adm-tabs { display:flex; gap:8px; padding:14px 20px 8px; overflow-x:auto; scrollbar-width:none; }
+.adm-tabs::-webkit-scrollbar { display:none; }
+.adm-tab {
+  padding:8px 18px; border-radius:100px; border:none;
+  background:var(--bg); box-shadow:var(--neo-sm);
+  font-family:var(--font); font-size:13px; font-weight:700; color:var(--txt2);
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+}
+.adm-tab.on { background:var(--accent); color:#fff; box-shadow:var(--accent-glow); }
+.adm-body { padding:12px 20px 40px; }
+.adm-add-btn {
+  width:100%; height:52px; border-radius:var(--radius-btn); border:none;
+  background:var(--accent); color:#fff;
+  font-family:var(--font); font-size:15px; font-weight:800; cursor:pointer;
+  box-shadow:var(--accent-glow); margin-bottom:14px;
+  transition:transform .13s;
+}
+.adm-add-btn:active { transform:scale(.98); }
+.adm-form {
+  background:var(--bg); border-radius:20px; box-shadow:var(--neo-out);
+  padding:18px 18px 14px; margin-bottom:14px;
+}
+.adm-form-title { font-size:16px; font-weight:900; margin-bottom:14px; }
+.fg { display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+.fl { font-size:11px; font-weight:800; color:var(--txt3); text-transform:uppercase; letter-spacing:.5px; }
+.fi, .fsel, .fta {
+  height:46px; border-radius:12px; border:none;
+  background:var(--bg); box-shadow:var(--neo-in);
+  padding:0 13px; font-family:var(--font); font-size:14px;
+  font-weight:600; color:var(--txt1); outline:none; width:100%;
+  transition:background .35s;
+}
+.fta { height:auto; min-height:88px; padding:11px 13px; resize:none; }
+.frow { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.fbrow { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+.fbsave {
+  height:46px; border-radius:12px; border:none; background:var(--accent); color:#fff;
+  font-family:var(--font); font-size:14px; font-weight:800; cursor:pointer;
+}
+.fbcancel {
+  height:46px; border-radius:12px; border:none;
+  background:var(--bg); box-shadow:var(--neo-sm); color:var(--txt1);
+  font-family:var(--font); font-size:14px; font-weight:700; cursor:pointer;
+}
+.fbdel {
+  width:100%; height:44px; border-radius:12px; border:none;
+  background:rgba(255,59,48,.10); color:var(--red);
+  font-family:var(--font); font-size:14px; font-weight:800; cursor:pointer;
+  margin-top:8px;
+}
+.adm-item {
+  background:var(--bg); border-radius:16px; box-shadow:var(--neo-sm);
+  padding:13px; margin-bottom:9px; display:flex; align-items:center; gap:11px;
+}
+.adm-item-info { flex:1; min-width:0; }
+.adm-item-info strong {
+  font-size:14px; font-weight:800; display:block;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.adm-item-info span { font-size:12px; color:var(--txt2); }
+.adm-acts { display:flex; gap:8px; }
+.adm-ibtn {
+  width:34px; height:34px; border-radius:10px; border:none;
+  background:var(--bg); box-shadow:var(--neo-xs);
+  cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--txt2);
+}
+.adm-ibtn.del { color:var(--red); }
+.adm-ibtn svg { width:14px; height:14px; }
+
+/* ─── TOAST ──────────────────────────────────────────────── */
+.toast {
+  position:fixed; top:58px; left:50%; transform:translateX(-50%) translateY(-16px);
+  background:var(--txt1); color:var(--bg);
+  padding:11px 22px; border-radius:100px; font-size:13px; font-weight:700;
+  z-index:9000; opacity:0; pointer-events:none; transition:all .28s; white-space:nowrap;
+}
+.toast.on { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* desktop centering */
+@media(min-width:480px){
+  .hdr,.bnav,.chat-fab { max-width:480px; left:50%; transform:translateX(-50%); right:auto; }
+  .chat-fab { right:0; left:auto; transform:none; right:max(16px,calc(50% - 224px)); }
+  .chat-win { right:max(16px,calc(50% - 224px)); }
+  .admin-ovl { max-width:480px; left:50%; }
+  .admin-ovl.on { transform:translateX(-50%); }
+  .admin-ovl:not(.on) { transform:translateX(calc(-50% + 480px)); }
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pl-logo">
+    <svg class="pl-logo-inner" viewBox="0 0 48 48" fill="none">
+      <rect x="4" y="9" width="40" height="30" rx="7" fill="#007AFF" opacity=".13"/>
+      <rect x="4" y="9" width="40" height="12" rx="7" fill="#007AFF" opacity=".55"/>
+      <rect x="11" y="27" width="9" height="7" rx="2.5" fill="#007AFF"/>
+      <rect x="24" y="27" width="17" height="2.5" rx="1.25" fill="#007AFF" opacity=".45"/>
+      <rect x="24" y="31.5" width="13" height="2.5" rx="1.25" fill="#007AFF" opacity=".28"/>
+    </svg>
+  </div>
+  <div class="pl-words">
+    <h1>Гос<span>Вакансии</span></h1>
+    <p>Официальные вакансии по всей России</p>
+  </div>
+  <div class="pl-track"><div class="pl-fill"></div></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-row">
+      <div class="logo">
+        <div class="logo-box" id="logoBox">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="4" y="9" width="40" height="30" rx="7" fill="#007AFF" opacity=".13"/>
+            <rect x="4" y="9" width="40" height="12" rx="7" fill="#007AFF" opacity=".55"/>
+            <rect x="11" y="27" width="9" height="7" rx="2.5" fill="#007AFF"/>
+            <rect x="24" y="27" width="17" height="2.5" rx="1.25" fill="#007AFF" opacity=".45"/>
+            <rect x="24" y="31.5" width="13" height="2.5" rx="1.25" fill="#007AFF" opacity=".28"/>
+          </svg>
+        </div>
+        <span class="logo-name">Гос<span>Вакансии</span></span>
+      </div>
+      <div class="hdr-btns">
+        <button class="ico-btn" id="themeBtn">
+          <svg id="themeIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="srch-wrap">
+      <div class="srch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <input class="srch" id="srchInput" type="text" placeholder="Поиск вакансии, компании...">
+    </div>
+  </header>
+
+  <!-- CITY BAR -->
+  <div class="chip-bar" id="cityBar"></div>
+
+  <!-- CATEGORY BAR -->
+  <div class="chip-bar" id="catBar">
+    <button class="chip cat-on" data-cat="all">Все</button>
+    <button class="chip" data-cat="IT">💻 IT</button>
+    <button class="chip" data-cat="Медицина">🏥 Медицина</button>
+    <button class="chip" data-cat="Строительство">🏗 Строительство</button>
+    <button class="chip" data-cat="Образование">📚 Образование</button>
+    <button class="chip" data-cat="Транспорт">🚛 Транспорт</button>
+    <button class="chip" data-cat="Производство">🏭 Производство</button>
+    <button class="chip" data-cat="Безопасность">🛡 Безопасность</button>
+    <button class="chip" data-cat="Финансы">💰 Финансы</button>
+    <button class="chip" data-cat="Другое">📋 Другое</button>
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div class="sec-hdr">
+    <div class="sec-title">Вакансии</div>
+    <div class="sec-cnt" id="jCnt">0 вакансий</div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="jobs" id="jobsGrid"></div>
+
+</div><!-- /app -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <div class="bnav-i on" onclick="navClick('home',this)">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Главная
+  </div>
+  <div class="bnav-i" onclick="navClick('search',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Поиск
+  </div>
+  <div class="bnav-i" onclick="navClick('fav',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Избранное
+  </div>
+  <div class="bnav-i" onclick="navClick('info',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>О сайте
+  </div>
+</nav>
+
+<!-- JOB DETAIL OVERLAY -->
+<div class="overlay" id="jobOvl" onclick="closeJobModal(event)">
+  <div class="sheet" id="jobSheet">
+    <div class="sheet-handle"></div>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-co-row">
+        <div class="modal-co-logo" id="modalCoLogo"></div>
+        <div class="modal-co-info">
+          <strong id="modalCoName"></strong>
+          <span id="modalCoSince"></span>
+        </div>
+      </div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-salary" id="modalSalary"></div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="divider"></div>
+      <div class="sec-lbl">Описание вакансии</div>
+      <div class="modal-desc" id="modalDesc"></div>
+    </div>
+    <div class="apply-bar">
+      <button class="apply-btn" id="applyBtn">📩 Откликнуться на вакансию</button>
+    </div>
+  </div>
+</div>
+
+<!-- MESSENGER OVERLAY -->
+<div class="overlay" id="msgOvl" onclick="closeMsgModal(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="msg-sheet">
+      <div class="msg-title">Выберите мессенджер</div>
+      <div class="msg-sub">Напишите работодателю удобным способом</div>
+      <div class="msg-list" id="msgList"></div>
+      <button class="msg-cancel" onclick="closeMsgModal()">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT FAB -->
+<button class="chat-fab" id="chatFab">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  <div class="chat-dot" id="chatDot">1</div>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-win" id="chatWin">
+  <div class="chat-hdr">
+    <div class="chat-av">Г</div>
+    <div class="chat-hdr-info">
+      <strong>Поддержка ГосВакансии</strong>
+      <span>● Онлайн</span>
+    </div>
+    <button class="chat-x" onclick="toggleChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="cmsg adm">
+      <div class="cbubble">Здравствуйте! 👋 Добро пожаловать на ГосВакансии. Чем могу помочь?</div>
+      <div class="ctime">Сейчас</div>
+    </div>
+  </div>
+  <div class="chat-inp-row">
+    <input class="chat-inp" id="chatInp" placeholder="Написать сообщение..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" onclick="sendMsg()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-ovl" id="adminPanel">
+  <div class="adm-hdr">
+    <h2>⚙️ Панель управления</h2>
+    <button class="ico-btn" onclick="closeAdmin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="adm-tabs" id="admTabs">
+    <button class="adm-tab on" onclick="admTab('jobs',this)">Вакансии</button>
+    <button class="adm-tab" onclick="admTab('companies',this)">Компании</button>
+    <button class="adm-tab" onclick="admTab('chats',this)">Чаты</button>
+  </div>
+  <div class="adm-body" id="admBody"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════════ */
+const DEF_COMPANIES = [
+  {id:1,name:"Газпром",      emoji:"⚡",verified:true, since:1989, contacts:{telegram:"@gazprom_hr",   whatsapp:"+74951234567", instagram:"@gazprom",         vk:"vk.com/gazprom"}},
+  {id:2,name:"РЖД",          emoji:"🚂",verified:true, since:1992, contacts:{telegram:"@rzd_rabota",   whatsapp:"+74957654321", instagram:"@rzd_russia",      vk:"vk.com/rzd"}},
+  {id:3,name:"Ростех",       emoji:"🏭",verified:true, since:2007, contacts:{telegram:"@rostec_hr",    whatsapp:"+74953456789", instagram:"@rostec_official", vk:"vk.com/rostec"}},
+  {id:4,name:"Сбербанк",     emoji:"💚",verified:true, since:1841, contacts:{telegram:"@sber_career",  whatsapp:"+74959876543", instagram:"@sberbank",        vk:"vk.com/sberbank"}},
+  {id:5,name:"МЧС России",   emoji:"🚒",verified:true, since:1990, contacts:{telegram:"@mchs_hr",      whatsapp:"+74955551234", instagram:"@mchs_russia",     vk:"vk.com/mchs_russia"}},
+  {id:6,name:"Росатом",      emoji:"⚛️",verified:true, since:2007, contacts:{telegram:"@rosatom_hr",   whatsapp:"+74952345678", instagram:"@rosatom",         vk:"vk.com/rosatom"}},
+];
+const DEF_JOBS = [
+  {id:1, title:"Frontend-разработчик",     company_id:4, category:"IT",            city:"Москва",           salary:"150 000 – 250 000 ₽", type:"Полная",    emoji:"💻", photo:null, created:"2024-01-10", description:"Разработка веб-приложений для Сбербанка.\n\n🎯 Обязанности:\n• Разработка интерфейсов на React/TypeScript\n• Работа с REST API и WebSocket\n• Ревью кода коллег\n\n📋 Требования:\n• Опыт от 2 лет\n• React, TypeScript, CSS Modules\n• Понимание принципов UX\n\n✅ Мы предлагаем:\n• Оклад + квартальный бонус\n• ДМС с 1-го дня\n• Гибкий график / гибрид"},
+  {id:2, title:"Машинист электровоза",     company_id:2, category:"Транспорт",     city:"Санкт-Петербург",  salary:"85 000 – 115 000 ₽",  type:"Полная",    emoji:"🚂", photo:null, created:"2024-01-12", description:"РЖД приглашает машинистов на Октябрьскую железную дорогу.\n\n🎯 Обязанности:\n• Управление электровозом по расписанию\n• Плановый осмотр локомотива\n• Аварийные протоколы\n\n📋 Требования:\n• Права машиниста\n• Стаж от 3 лет\n• Готовность к сменному графику\n\n✅ Условия:\n• Корпоративное жильё\n• Форменная одежда\n• Льготный проезд по всей сети"},
+  {id:3, title:"Инженер-конструктор",      company_id:3, category:"Производство",  city:"Нижний Новгород",  salary:"90 000 – 145 000 ₽",  type:"Полная",    emoji:"⚙️", photo:null, created:"2024-01-14", description:"Ростех ищет инженера-конструктора в ОПК.\n\n🎯 Обязанности:\n• Разработка КД и ТД\n• Участие в НИОКР\n• Контроль производства\n\n📋 Требования:\n• Высшее техническое образование\n• AutoCAD / SolidWorks от 2 лет\n• Готовность к оформлению допуска\n\n✅ Условия:\n• Стабильная зарплата 2 раза в месяц\n• 30 дней отпуска\n• Профессиональный рост"},
+  {id:4, title:"Врач-терапевт",            company_id:5, category:"Медицина",      city:"Казань",           salary:"70 000 – 95 000 ₽",   type:"Полная",    emoji:"🏥", photo:null, created:"2024-01-15", description:"МЧС России набирает врачей-терапевтов в медицинскую службу.\n\n🎯 Обязанности:\n• Приём пациентов\n• Медицинские освидетельствования\n• Сопровождение спасательных операций\n\n📋 Требования:\n• Высшее медицинское образование\n• Сертификат терапевта\n• Без судимостей\n\n✅ Гарантии:\n• Государственная пенсия\n• Ранний выход на пенсию\n• Служебное жильё"},
+  {id:5, title:"Специалист по газовым сетям", company_id:1, category:"Производство", city:"Екатеринбург",   salary:"95 000 – 135 000 ₽",  type:"Полная",    emoji:"⚡", photo:null, created:"2024-01-16", description:"Газпром ищет специалиста по ГРС.\n\n🎯 Обязанности:\n• ТО газораспределительных сетей\n• Плановый ремонт\n• Аварийные выезды 24/7\n\n📋 Требования:\n• Среднее/высшее техническое\n• Удостоверение по газовому хозяйству\n• Водительские права категории B\n\n✅ Условия:\n• Корпоративный автомобиль\n• Квартальные премии\n• Обучение за счёт компании"},
+  {id:6, title:"Ядерный физик-исследователь", company_id:6, category:"IT",         city:"Москва",           salary:"120 000 – 200 000 ₽", type:"Полная",    emoji:"⚛️", photo:null, created:"2024-01-17", description:"Росатом ищет физика для работы с реакторными технологиями.\n\n🎯 Обязанности:\n• Научные исследования в области ядерных технологий\n• Публикация результатов\n• Участие в международных проектах\n\n📋 Требования:\n• Аспирантура / PhD в области физики\n• Опыт в ядерных/атомных технологиях\n• Английский B2+\n\n✅ Условия:\n• Международные командировки\n• Грантовое финансирование\n• Уникальная лаборатория"},
+  {id:7, title:"Учитель математики",        company_id:4, category:"Образование",  city:"Москва",           salary:"65 000 – 82 000 ₽",   type:"Полная",    emoji:"📐", photo:null, created:"2024-01-18", description:"Государственная школа №1234 приглашает учителя.\n\n🎯 Обязанности:\n• Уроки математики 5–11 класс\n• Подготовка к ОГЭ и ЕГЭ\n• Классное руководство\n\n📋 Требования:\n• Педагогическое образование\n• Опыт от 1 года\n• Знание ФГОС\n\n✅ Условия:\n• Льготная ипотека для учителей\n• Доплаты за классное руководство\n• 56 дней отпуска"},
+  {id:8, title:"Охранник объекта",          company_id:5, category:"Безопасность", city:"Новосибирск",      salary:"45 000 – 60 000 ₽",   type:"Полная",    emoji:"🛡",  photo:null, created:"2024-01-19", description:"МЧС России набирает сотрудников охраны.\n\n🎯 Обязанности:\n• Охрана государственного объекта\n• Контроль пропускного режима\n• Ведение журналов\n\n📋 Требования:\n• Лицензия охранника (4-6 разряд)\n• Без судимостей\n• Физическая подготовка\n\n✅ Условия:\n• Сменный график 2/2\n• Форменная одежда\n• Официальное трудоустройство"},
+];
+
+let S = {
+  jobs: [], companies: [],
+  city:'all', cat:'all', q:'',
+  curJob:null, chatOpen:false, admOpen:false, admTab:'jobs',
+  logoCnt:0, logoTimer:null,
+  favorites: [],
+};
+
+function loadData(){
+  try {
+    S.jobs      = JSON.parse(localStorage.getItem('gv_jobs'))      || DEF_JOBS.map(j=>({...j}));
+    S.companies = JSON.parse(localStorage.getItem('gv_companies')) || DEF_COMPANIES.map(c=>({...c}));
+    S.favorites = JSON.parse(localStorage.getItem('gv_favs'))      || [];
+  } catch(e){
+    S.jobs=[...DEF_JOBS]; S.companies=[...DEF_COMPANIES]; S.favorites=[];
+  }
+}
+function save(){ localStorage.setItem('gv_jobs',JSON.stringify(S.jobs)); localStorage.setItem('gv_companies',JSON.stringify(S.companies)); localStorage.setItem('gv_favs',JSON.stringify(S.favorites)); }
+function co(id){ return S.companies.find(c=>c.id===id)||{name:'Компания',emoji:'🏢',verified:false,since:2020,contacts:{}}; }
+
+/* ═══════════════════════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════════════════════ */
+window.addEventListener('load',()=>{
+  loadData();
+  setTimeout(()=>{
+    const pl=document.getElementById('preloader');
+    pl.classList.add('out');
+    setTimeout(()=>pl.style.display='none',460);
+    renderCities(); renderJobs();
+  },2050);
+  // show chat badge after 3s
+  setTimeout(()=>{ if(!S.chatOpen){ const d=document.getElementById('chatDot'); d.style.display='flex'; } },3200);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   THEME
+═══════════════════════════════════════════════════════════ */
+let dark=false;
+document.getElementById('themeBtn').onclick=()=>{
+  dark=!dark;
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  const ico=document.getElementById('themeIco');
+  ico.innerHTML=dark
+    ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none"/>'
+    : '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+};
+
+/* ═══════════════════════════════════════════════════════════
+   SECRET ADMIN (5 taps logo)
+═══════════════════════════════════════════════════════════ */
+document.getElementById('logoBox').onclick=()=>{
+  S.logoCnt++;
+  if(S.logoTimer) clearTimeout(S.logoTimer);
+  S.logoTimer=setTimeout(()=>S.logoCnt=0,2000);
+  if(S.logoCnt>=5){ S.logoCnt=0; openAdmin(); }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   CITY CHIPS
+═══════════════════════════════════════════════════════════ */
+function renderCities(){
+  const cities=['all',...new Set(S.jobs.map(j=>j.city))];
+  const bar=document.getElementById('cityBar');
+  bar.innerHTML='';
+  cities.forEach(city=>{
+    const b=document.createElement('button');
+    b.className='chip'+(city===S.city?' on':'');
+    b.textContent=city==='all'?'🇷🇺 Все города':'📍 '+city;
+    b.onclick=()=>{ S.city=city; bar.querySelectorAll('.chip').forEach(x=>x.classList.remove('on')); b.classList.add('on'); renderJobs(); };
+    bar.appendChild(b);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CATEGORY CHIPS
+═══════════════════════════════════════════════════════════ */
+document.getElementById('catBar').onclick=e=>{
+  const b=e.target.closest('[data-cat]');
+  if(!b) return;
+  S.cat=b.dataset.cat;
+  document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('cat-on'));
+  b.classList.add('cat-on');
+  renderJobs();
+};
+
+/* ═══════════════════════════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════════════════════════ */
+document.getElementById('srchInput').oninput=e=>{ S.q=e.target.value.toLowerCase(); renderJobs(); };
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER JOBS
+═══════════════════════════════════════════════════════════ */
+function plural(n,a,b,c){ n=Math.abs(n)%100; const n1=n%10; if(n>10&&n<20)return c; if(n1>1&&n1<5)return b; if(n1===1)return a; return c; }
+
+function renderJobs(){
+  const grid=document.getElementById('jobsGrid');
+  let filtered=S.jobs.filter(j=>{
+    if(S.city!=='all'&&j.city!==S.city) return false;
+    if(S.cat!=='all'&&j.category!==S.cat) return false;
+    if(S.q&&!(j.title.toLowerCase().includes(S.q)||j.city.toLowerCase().includes(S.q)||co(j.company_id).name.toLowerCase().includes(S.q))) return false;
+    return true;
+  });
+  document.getElementById('jCnt').textContent=filtered.length+' '+plural(filtered.length,'вакансия','вакансии','вакансий');
+  if(!filtered.length){
+    grid.innerHTML=`<div class="empty"><div class="em">🔍</div><h3>Ничего не найдено</h3><p>Попробуйте изменить фильтры или поисковый запрос</p></div>`;
+    return;
+  }
+  grid.innerHTML='';
+  filtered.forEach((job,i)=>{
+    const c=co(job.company_id);
+    const fav=S.favorites.includes(job.id);
+    const card=document.createElement('div');
+    card.className='jcard';
+    card.style.animationDelay=(i*.045)+'s';
+    const vbadge=c.verified?`<span class="vbadge"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke="#007AFF" stroke-width="2" fill="none"/></svg></span>`:'';
+    const imgHTML=job.photo
+      ?`<div class="jcard-img"><img src="${job.photo}" alt="${job.title}" loading="lazy"></div>`
+      :`<div class="jcard-img">${job.emoji||'💼'}</div>`;
+    const typeLabel=job.type==='Полная'?'⏰ Полная':job.type==='Частичная'?'🕐 Частичная':'🏠 Удалёнка';
+    card.innerHTML=`
+      ${imgHTML}
+      <div class="jcard-body">
+        <div class="jcard-top">
+          <div class="co-logo">${c.emoji||'🏢'}</div>
+          <div class="jcard-meta">
+            <div class="co-row"><span class="co-name">${c.name}</span>${vbadge}</div>
+            <div class="j-title">${job.title}</div>
+            <div class="j-salary">${job.salary}</div>
+          </div>
+        </div>
+        <div class="j-tags">
+          <span class="tag tag-city">📍 ${job.city}</span>
+          <span class="tag tag-type">${typeLabel}</span>
+          <span class="tag tag-cat">${job.category}</span>
+        </div>
+      </div>`;
+    card.onclick=()=>openJobModal(job);
+    grid.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   JOB MODAL
+═══════════════════════════════════════════════════════════ */
+function openJobModal(job){
+  S.curJob=job;
+  const c=co(job.company_id);
+  // img
+  const imgEl=document.getElementById('modalImg');
+  imgEl.style.fontSize='72px';
+  imgEl.innerHTML=job.photo?`<img src="${job.photo}" alt="${job.title}" style="width:100%;height:100%;object-fit:cover;">`:(job.emoji||'💼');
+  // co
+  document.getElementById('modalCoLogo').innerHTML=c.emoji||'🏢';
+  const vb=c.verified?` <svg width="14" height="14" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke="#007AFF" stroke-width="2" fill="none"/></svg>`:'';
+  document.getElementById('modalCoName').innerHTML=c.name+vb;
+  document.getElementById('modalCoSince').textContent=c.since?`С ${c.since} года`:'';
+  document.getElementById('modalTitle').textContent=job.title;
+  document.getElementById('modalSalary').textContent=job.salary;
+  document.getElementById('modalDesc').textContent=job.description||'Описание не указано.';
+  const typeLabel=job.type==='Полная'?'⏰ Полная занятость':job.type==='Частичная'?'🕐 Частичная':'🏠 Удалёнка';
+  document.getElementById('modalTags').innerHTML=`<span class="tag tag-city">📍 ${job.city}</span><span class="tag tag-type">${typeLabel}</span><span class="tag tag-cat">${job.category}</span>`;
+  document.getElementById('jobOvl').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeJobModal(e){
+  if(!e||e.target===document.getElementById('jobOvl')){
+    document.getElementById('jobOvl').classList.remove('on');
+    document.body.style.overflow='';
+  }
+}
+document.getElementById('applyBtn').onclick=openMsgModal;
+
+/* ═══════════════════════════════════════════════════════════
+   MESSENGER MODAL
+═══════════════════════════════════════════════════════════ */
+function openMsgModal(){
+  if(!S.curJob) return;
+  const c=co(S.curJob.company_id), ct=c.contacts||{};
+  const options=[
+    {name:'Telegram',  handle:ct.telegram,  icon:'✈️',  bg:'rgba(42,171,238,.12)', url:ct.telegram?`https://t.me/${ct.telegram.replace('@','')}`:null},
+    {name:'WhatsApp',  handle:ct.whatsapp,  icon:'📱',  bg:'rgba(37,211,102,.12)', url:ct.whatsapp?`https://wa.me/${ct.whatsapp.replace(/\D/g,'')}`:null},
+    {name:'ВКонтакте', handle:ct.vk,        icon:'💙',  bg:'rgba(76,117,163,.12)', url:ct.vk?`https://${ct.vk}`:null},
+    {name:'Instagram', handle:ct.instagram, icon:'📸',  bg:'rgba(225,48,108,.12)', url:ct.instagram?`https://instagram.com/${ct.instagram.replace('@','')}`:null},
+  ].filter(m=>m.url);
+  document.getElementById('msgList').innerHTML=options.map(m=>`
+    <a class="msg-btn" href="${m.url}" target="_blank" rel="noopener">
+      <div class="msg-ico" style="background:${m.bg}">${m.icon}</div>
+      <div class="msg-info"><strong>${m.name}</strong><span>${m.handle}</span></div>
+      <div class="msg-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>`).join('')||`<p style="text-align:center;color:var(--txt2);font-size:13px;padding:20px 0">Контакты не указаны</p>`;
+  document.getElementById('msgOvl').classList.add('on');
+}
+function closeMsgModal(e){
+  if(!e||e.target===document.getElementById('msgOvl'))
+    document.getElementById('msgOvl').classList.remove('on');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHAT
+═══════════════════════════════════════════════════════════ */
+document.getElementById('chatFab').onclick=toggleChat;
+function toggleChat(){
+  S.chatOpen=!S.chatOpen;
+  document.getElementById('chatWin').classList.toggle('on',S.chatOpen);
+  if(S.chatOpen){ document.getElementById('chatDot').style.display='none'; document.getElementById('chatInp').focus(); }
+}
+const REPLIES=['Спасибо за обращение! Ответим в ближайшее время 🙏','По вакансиям — нажмите «Откликнуться» на карточке.','Работаем ежедневно с 9:00 до 18:00 МСК.','Отличный вопрос! Уточним и вернёмся с ответом.','Мы получили ваше сообщение и скоро свяжемся ✓'];
+function sendMsg(){
+  const inp=document.getElementById('chatInp'), txt=inp.value.trim(); if(!txt) return;
+  appendMsg('usr',txt); inp.value='';
+  saveChatSession(txt);
+  setTimeout(()=>appendMsg('adm',REPLIES[Math.floor(Math.random()*REPLIES.length)]),800+Math.random()*900);
+}
+function appendMsg(from,txt){
+  const box=document.getElementById('chatMsgs'), now=new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div'); d.className=`cmsg ${from}`;
+  d.innerHTML=`<div class="cbubble">${txt}</div><div class="ctime">${now}</div>`;
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
+}
+function saveChatSession(msg){
+  const sessions=JSON.parse(localStorage.getItem('gv_sessions')||'[]');
+  sessions.push({time:new Date().toLocaleString('ru'),msg});
+  localStorage.setItem('gv_sessions',JSON.stringify(sessions.slice(-30)));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOTTOM NAV
+═══════════════════════════════════════════════════════════ */
+function navClick(page,el){
+  document.querySelectorAll('.bnav-i').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  if(page==='search'){ document.getElementById('srchInput').focus(); document.getElementById('srchInput').scrollIntoView({behavior:'smooth'}); }
+  if(page==='fav'){ S.cat='all'; S.city='all'; /* show all for now */ }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════ */
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),2500); }
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN
+═══════════════════════════════════════════════════════════ */
+function openAdmin(){ S.admOpen=true; document.getElementById('adminPanel').classList.add('on'); renderAdm(); }
+function closeAdmin(){ S.admOpen=false; document.getElementById('adminPanel').classList.remove('on'); }
+function admTab(tab,btn){ S.admTab=tab; document.querySelectorAll('.adm-tab').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); renderAdm(); }
+function renderAdm(){
+  const body=document.getElementById('admBody');
+  if(S.admTab==='jobs')      renderAdmJobs(body);
+  else if(S.admTab==='companies') renderAdmCompanies(body);
+  else                       renderAdmChats(body);
+}
+
+/* ── Admin: Jobs ─────────────────────────────────────────── */
+function renderAdmJobs(body){
+  body.innerHTML=`<button class="adm-add-btn" onclick="showJobForm(null)">+ Добавить вакансию</button><div id="jFormArea"></div><div id="jList"></div>`;
+  renderJList();
+}
+function renderJList(){
+  const list=document.getElementById('jList'); if(!list) return;
+  list.innerHTML=S.jobs.map(j=>{const c=co(j.company_id);return`
+    <div class="adm-item">
+      <div style="font-size:26px;flex-shrink:0">${j.emoji||'💼'}</div>
+      <div class="adm-item-info"><strong>${j.title}</strong><span>${c.name} · ${j.city} · ${j.salary}</span></div>
+      <div class="adm-acts">
+        <button class="adm-ibtn" onclick="cloneJobUI(${j.id})" title="Клонировать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
+        <button class="adm-ibtn" onclick="showJobForm(${j.id})" title="Изменить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="adm-ibtn del" onclick="delJob(${j.id})" title="Удалить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
+      </div>
+    </div>`}).join('');
+}
+function showJobForm(id){
+  const area=document.getElementById('jFormArea'); const j=id?S.jobs.find(x=>x.id===id):null;
+  const coOpts=S.companies.map(c=>`<option value="${c.id}"${j&&j.company_id===c.id?' selected':''}>${c.emoji} ${c.name}</option>`).join('');
+  const cats=['IT','Медицина','Строительство','Образование','Транспорт','Производство','Безопасность','Финансы','Другое'];
+  const catOpts=cats.map(c=>`<option value="${c}"${j&&j.category===c?' selected':''}>${c}</option>`).join('');
+  area.innerHTML=`<div class="adm-form">
+    <div class="adm-form-title">${j?'✏️ Редактировать вакансию':'➕ Новая вакансия'}</div>
+    <div class="fg"><label class="fl">Название</label><input class="fi" id="f_t" value="${j?j.title:''}" placeholder="Программист, инженер..."></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Компания</label><select class="fsel" id="f_co">${coOpts}</select></div>
+      <div class="fg"><label class="fl">Категория</label><select class="fsel" id="f_ca">${catOpts}</select></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Город</label><input class="fi" id="f_ci" value="${j?j.city:''}" placeholder="Москва"></div>
+      <div class="fg"><label class="fl">Тип</label><select class="fsel" id="f_ty">
+        <option value="Полная"${j&&j.type==='Полная'?' selected':''}>Полная</option>
+        <option value="Частичная"${j&&j.type==='Частичная'?' selected':''}>Частичная</option>
+        <option value="Удалёнка"${j&&j.type==='Удалёнка'?' selected':''}>Удалёнка</option>
+      </select></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Зарплата</label><input class="fi" id="f_s" value="${j?j.salary:''}" placeholder="80 000 – 120 000 ₽"></div>
+      <div class="fg"><label class="fl">Эмодзи</label><input class="fi" id="f_e" value="${j?(j.emoji||''):''}" placeholder="💼" style="text-align:center"></div>
+    </div>
+    <div class="fg"><label class="fl">Описание</label><textarea class="fta" id="f_d" placeholder="Обязанности, требования, условия...">${j?(j.description||''):''}</textarea></div>
+    <div class="fbrow"><button class="fbcancel" onclick="cancelJF()">Отмена</button><button class="fbsave" onclick="saveJob(${id||'null'})">Сохранить</button></div>
+    ${j?`<button class="fbdel" onclick="delJob(${j.id})">🗑 Удалить вакансию</button>`:''}
+  </div>`;
+  area.scrollIntoView({behavior:'smooth'});
+}
+function cancelJF(){ const a=document.getElementById('jFormArea'); if(a) a.innerHTML=''; }
+function saveJob(id){
+  const t=document.getElementById('f_t').value.trim(), ci=document.getElementById('f_ci').value.trim(), sal=document.getElementById('f_s').value.trim();
+  if(!t||!ci||!sal){ toast('Заполните обязательные поля'); return; }
+  const d={title:t,company_id:+document.getElementById('f_co').value,category:document.getElementById('f_ca').value,city:ci,type:document.getElementById('f_ty').value,salary:sal,emoji:document.getElementById('f_e').value||'💼',description:document.getElementById('f_d').value,photo:null,created:new Date().toISOString().split('T')[0]};
+  if(id){ const i=S.jobs.findIndex(j=>j.id===id); S.jobs[i]={...S.jobs[i],...d}; toast('Вакансия обновлена ✓'); }
+  else { d.id=Date.now(); S.jobs.unshift(d); toast('Вакансия добавлена ✓'); }
+  save(); cancelJF(); renderJList(); renderCities(); renderJobs();
+}
+function delJob(id){ if(!confirm('Удалить вакансию?')) return; S.jobs=S.jobs.filter(j=>j.id!==id); save(); renderJList(); renderCities(); renderJobs(); toast('Удалено'); }
+function cloneJobUI(id){
+  const job=S.jobs.find(j=>j.id===id); if(!job) return;
+  const cities=prompt('Клонировать в города (через запятую):',job.city); if(!cities) return;
+  cities.split(',').map(c=>c.trim()).filter(c=>c&&c!==job.city).forEach(city=>{ S.jobs.push({...job,id:Date.now()+Math.random()*1000|0,city}); });
+  save(); renderJList(); renderCities(); renderJobs(); toast('Клонировано ✓');
+}
+
+/* ── Admin: Companies ────────────────────────────────────── */
+function renderAdmCompanies(body){
+  body.innerHTML=`<button class="adm-add-btn" onclick="showCoForm(null)">+ Добавить компанию</button><div id="coFormArea"></div><div id="coList"></div>`;
+  renderCoList();
+}
+function renderCoList(){
+  const list=document.getElementById('coList'); if(!list) return;
+  list.innerHTML=S.companies.map(c=>`
+    <div class="adm-item">
+      <div style="font-size:28px;flex-shrink:0">${c.emoji}</div>
+      <div class="adm-item-info"><strong>${c.name}${c.verified?' ✓':''}</strong><span>С ${c.since} года</span></div>
+      <div class="adm-acts">
+        <button class="adm-ibtn" onclick="showCoForm(${c.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="adm-ibtn del" onclick="delCo(${c.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+      </div>
+    </div>`).join('');
+}
+function showCoForm(id){
+  const area=document.getElementById('coFormArea'); const c=id?S.companies.find(x=>x.id===id):null;
+  area.innerHTML=`<div class="adm-form">
+    <div class="adm-form-title">${c?'✏️ Редактировать компанию':'➕ Новая компания'}</div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Название</label><input class="fi" id="cf_n" value="${c?c.name:''}" placeholder="Газпром"></div>
+      <div class="fg"><label class="fl">Эмодзи</label><input class="fi" id="cf_e" value="${c?c.emoji:''}" placeholder="🏢" style="text-align:center"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">С какого года</label><input class="fi" id="cf_y" type="number" value="${c?c.since:''}" placeholder="1989"></div>
+      <div class="fg"><label class="fl">Верификация</label><select class="fsel" id="cf_v">
+        <option value="1"${c&&c.verified?' selected':''}>✓ Подтверждена</option>
+        <option value="0"${c&&!c.verified?' selected':''}>Не верифицирована</option>
+      </select></div>
+    </div>
+    <div style="font-size:11px;font-weight:800;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;margin:6px 0 2px">Контакты для отклика</div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Telegram</label><input class="fi" id="cf_tg" value="${c&&c.contacts?c.contacts.telegram||'':''}" placeholder="@company"></div>
+      <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="cf_wa" value="${c&&c.contacts?c.contacts.whatsapp||'':''}" placeholder="+7..."></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">ВКонтакте</label><input class="fi" id="cf_vk" value="${c&&c.contacts?c.contacts.vk||'':''}" placeholder="vk.com/..."></div>
+      <div class="fg"><label class="fl">Instagram</label><input class="fi" id="cf_ig" value="${c&&c.contacts?c.contacts.instagram||'':''}" placeholder="@company"></div>
+    </div>
+    <div class="fbrow"><button class="fbcancel" onclick="cancelCF()">Отмена</button><button class="fbsave" onclick="saveCo(${id||'null'})">Сохранить</button></div>
+  </div>`;
+  area.scrollIntoView({behavior:'smooth'});
+}
+function cancelCF(){ const a=document.getElementById('coFormArea'); if(a) a.innerHTML=''; }
+function saveCo(id){
+  const n=document.getElementById('cf_n').value.trim(); if(!n){ toast('Введите название'); return; }
+  const d={name:n,emoji:document.getElementById('cf_e').value||'🏢',since:+document.getElementById('cf_y').value||new Date().getFullYear(),verified:document.getElementById('cf_v').value==='1',contacts:{telegram:document.getElementById('cf_tg').value.trim(),whatsapp:document.getElementById('cf_wa').value.trim(),vk:document.getElementById('cf_vk').value.trim(),instagram:document.getElementById('cf_ig').value.trim()}};
+  if(id){ const i=S.companies.findIndex(c=>c.id===id); S.companies[i]={...S.companies[i],...d}; toast('Компания обновлена ✓'); }
+  else { d.id=Date.now(); S.companies.push(d); toast('Компания добавлена ✓'); }
+  save(); cancelCF(); renderCoList(); renderJobs();
+}
+function delCo(id){ if(!confirm('Удалить компанию?')) return; S.companies=S.companies.filter(c=>c.id!==id); save(); renderCoList(); renderJobs(); toast('Удалено'); }
+
+/* ── Admin: Chats ────────────────────────────────────────── */
+function renderAdmChats(body){
+  const sessions=JSON.parse(localStorage.getItem('gv_sessions')||'[]');
+  body.innerHTML=`
+    <div style="background:var(--accent-l);border-radius:14px;padding:14px;margin-bottom:16px;">
+      <strong style="font-size:13px;font-weight:800;color:var(--accent)">📡 Telegram-бот интеграция</strong>
+      <p style="font-size:12px;color:var(--txt2);margin-top:4px;line-height:1.5">Для подключения бота нужен Node.js-сервер. Ниже — сообщения из лайв-чата сайта. Напишите нам для получения серверного кода.</p>
+    </div>
+    <div style="font-size:14px;font-weight:800;margin-bottom:10px">Сообщения посетителей (${sessions.length})</div>
+    ${sessions.length?sessions.slice().reverse().map((s,i)=>`
+      <div class="adm-item">
+        <div style="font-size:22px;flex-shrink:0">💬</div>
+        <div class="adm-item-info"><strong>${s.msg.slice(0,50)}${s.msg.length>50?'…':''}</strong><span>${s.time}</span></div>
+      </div>`).join(''):
+      `<div class="empty"><div class="em">💬</div><h3>Чатов пока нет</h3><p>Сообщения от посетителей появятся здесь</p></div>`}
+  `;
+}
+</script>
+</body>
+</html>
